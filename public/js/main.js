@@ -5,15 +5,20 @@ const images = {
 	right: {on: '/images/arrow-right-on.svg', off: '/images/arrow-right-off.svg'}
 };
 
+const blinkerAudio = {
+	blinkerOn: new Audio('/audio/blinker-on.mp3'),
+	blinkerOff: new Audio('/audio/blinker-off.mp3')
+};
+
 class Blinker {
-	constructor(imageLeft, imageRight, direction, maxBlinkCount, iconSources) {
+	constructor(imageLeft, imageRight, direction, maxBlinkCount, iconSources, audio) {
 		this.direction = direction;
 		this.maxBlinkCount = maxBlinkCount;
 		this.imageLeft = imageLeft;
 		this.imageRight = imageRight;
 		this.blinkCount = 0;
-		this.blinking = false;
 		this.iconSources = iconSources;
+		this.audio = audio;
 	}
 
 	update(direction) {
@@ -21,20 +26,19 @@ class Blinker {
 		this.blinkCount = 0;
 	}
 
-	blink() {
-		this.blinking = !this.blinking;
-		if (this.blinkCount >= this.maxBlinkCount || !this.blinking || !this.direction) {
-			this.imageLeft.src = this.iconSources.left.off;
-			this.imageRight.src = this.iconSources.right.off;
-			return;
-		}
+	blinkOn() {
+		this.audio.blinkerOn.play();
 		if (this.direction === 'left') {
-			this.imageLeft.src = this.blink ? this.iconSources.left.on : this.iconSources.left.off;
-			this.blinkCount++;
+			this.imageLeft.src = this.iconSources.left.on;
 			return;
 		}
-		this.imageRight.src = this.blink ? this.iconSources.right.on : this.iconSources.right.off;
-		this.blinkCount++;
+		this.imageRight.src = this.iconSources.right.on;
+	}
+
+	blinkOff() {
+		this.audio.blinkerOff.play();
+		this.imageLeft.src = this.iconSources.left.off;
+		this.imageRight.src = this.iconSources.right.off;
 	}
 
 	initialize() {
@@ -44,8 +48,13 @@ class Blinker {
 
 		setTimeout(() => {
 			setInterval(() => {
-				this.blink();
-			}, 400);
+				if (!this.direction || this.blinkCount >= this.maxBlinkCount) return;
+				this.blinkCount++;
+				this.blinkOn();
+				setTimeout(() => {
+					this.blinkOff();
+				}, 400);
+			}, 800);
 		}, remainingMilliSeconds);
 	}
 }
@@ -62,7 +71,7 @@ const init = () => {
 	const imageLeft = document.getElementById('image-left');
 	const imageRight = document.getElementById('image-right');
 
-	const blinker = new Blinker(imageLeft, imageRight, null, 10, images);
+	const blinker = new Blinker(imageLeft, imageRight, null, 6, images, blinkerAudio);
 
 	socket.on('direction-update', (direction) => {
 		blinker.update(direction);
