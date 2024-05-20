@@ -24,4 +24,4 @@ io.on('connection', (socket) => {
 	});
 });
 
-httpServer.listen(2000);
+httpServer.listen(2002);
