@@ -1,4 +1,4 @@
-const socket = io({transports: ['websocket']});
+const socket = io('/', {transports: ['websocket']});
 
 const images = {
 	left: {on: '/images/arrow-left-on.svg', off: '/images/arrow-left-off.svg'},
