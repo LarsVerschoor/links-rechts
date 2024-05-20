@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100svh;
+    background-color: #000;
+}
+
+main {
+    height: 100vmin;
+    width: 100vmin;
+    display: grid;
+    gap: 3vmin;
+    grid-template: 1fr / repeat(2, 1fr);
+}
+
+img {
+    width: 100%;
+    align-self: center;
+}
