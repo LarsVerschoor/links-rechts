@@ -40,7 +40,7 @@ class Blinker {
 	initialize() {
 		let date = new Date();
 		let milliSeconds = date.getSeconds() * 1000 + date.getMilliseconds();
-		let remainingMilliSeconds = 1000 - (milliSeconds % 1000);
+		let remainingMilliSeconds = 800 - (milliSeconds % 800);
 
 		setTimeout(() => {
 			setInterval(() => {
