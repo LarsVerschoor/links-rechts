@@ -19,7 +19,6 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
 	socket.on('direction-request', () => {
-		console.log('test');
 		io.emit('direction-update', Math.random() > 0.5 ? 'left' : 'right');
 	});
 });
