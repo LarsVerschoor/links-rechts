@@ -45,7 +45,7 @@ class Blinker {
 		setTimeout(() => {
 			setInterval(() => {
 				this.blink();
-			}, 500);
+			}, 400);
 		}, remainingMilliSeconds);
 	}
 }
@@ -62,7 +62,7 @@ const init = () => {
 	const imageLeft = document.getElementById('image-left');
 	const imageRight = document.getElementById('image-right');
 
-	const blinker = new Blinker(imageLeft, imageRight, null, 5, images);
+	const blinker = new Blinker(imageLeft, imageRight, null, 10, images);
 
 	socket.on('direction-update', (direction) => {
 		blinker.update(direction);
